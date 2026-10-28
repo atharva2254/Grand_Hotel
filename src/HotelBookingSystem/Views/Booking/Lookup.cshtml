@@ -1,0 +1,27 @@
+@model LookupVm
+@{ ViewData["Title"] = "My booking"; var b = ViewBag.Booking as Booking; }
+<div class="mx-auto" style="max-width:560px">
+  <h1 class="h3 mb-3">Find your booking</h1>
+  <form asp-action="Lookup" method="post" class="mb-4">
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
+    <div class="mb-3"><label class="form-label" for="Reference">Booking reference</label><input class="form-control" id="Reference" name="Reference" /></div>
+    <div class="mb-3"><label class="form-label" for="Email">Email used to book</label><input type="email" class="form-control" id="Email" name="Email" /></div>
+    <button class="btn btn-brand w-100">Find booking</button>
+  </form>
+  @if (b != null)
+  {
+    <div class="card"><div class="card-body">
+      <h2 class="h5">@b.Reference <span class="badge bg-secondary">@b.Status</span></h2>
+      <p class="mb-1">@b.Room!.RoomType #@b.Room.RoomNumber · @b.Guests guest(s)</p>
+      <p class="mb-1">@b.CheckIn.ToString("dd MMM yyyy") → @b.CheckOut.ToString("dd MMM yyyy")</p>
+      <p>Total ₹@b.TotalPrice.ToString("N0")</p>
+      @if (b.Status == BookingStatus.Confirmed && b.CheckIn > DateOnly.FromDateTime(DateTime.Today))
+      {
+        <form asp-action="Cancel" method="post" onsubmit="return confirm('Cancel this booking?');">
+          <input type="hidden" name="reference" value="@b.Reference" /><input type="hidden" name="email" value="@b.GuestEmail" />
+          <button class="btn btn-outline-danger">Cancel booking</button>
+        </form>
+      }
+    </div></div>
+  }
+</div>

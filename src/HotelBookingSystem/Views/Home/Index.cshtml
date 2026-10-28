@@ -1,0 +1,63 @@
+@model SearchVm
+@{ ViewData["Title"] = "Find a room"; }
+
+<section class="hero mb-4">
+  <h1 class="h2 mb-1">Find your room, book in minutes</h1>
+  <p class="text-white-50 mb-3">Search live availability by dates and guests.</p>
+  <form method="get" asp-action="Index" class="row g-2 bg-white text-dark rounded p-3 mx-0">
+    <div class="col-12 col-md-3">
+      <label class="form-label fw-semibold" for="CheckIn">Check-in</label>
+      <input type="date" class="form-control" id="CheckIn" name="CheckIn" value="@Model.CheckIn?.ToString("yyyy-MM-dd")" min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+    </div>
+    <div class="col-12 col-md-3">
+      <label class="form-label fw-semibold" for="CheckOut">Check-out</label>
+      <input type="date" class="form-control" id="CheckOut" name="CheckOut" value="@Model.CheckOut?.ToString("yyyy-MM-dd")" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" required />
+    </div>
+    <div class="col-6 col-md-3">
+      <label class="form-label fw-semibold" for="Guests">Guests</label>
+      <input type="number" class="form-control" id="Guests" name="Guests" value="@Model.Guests" min="1" max="10" required />
+    </div>
+    <div class="col-6 col-md-3 d-flex align-items-end">
+      <button class="btn btn-brand w-100" type="submit">Search rooms</button>
+    </div>
+  </form>
+</section>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-warning">@Html.ValidationSummary()</div>
+}
+
+@if (Model.Searched && ViewData.ModelState.IsValid)
+{
+    <h2 class="h4 mb-3">@Model.Results.Count room(s) available</h2>
+    @if (!Model.Results.Any())
+    {
+        <div class="alert alert-info">No rooms are free for those dates and guest count. Try different dates.</div>
+    }
+    <div class="row g-4">
+    @foreach (var r in Model.Results)
+    {
+        var nights = Model.CheckOut!.Value.DayNumber - Model.CheckIn!.Value.DayNumber;
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100">
+            <partial name="_RoomImage" model="r" />
+            <div class="card-body d-flex flex-column">
+              <h3 class="h5">@r.RoomType <small class="text-muted">#@r.RoomNumber</small></h3>
+              <p class="text-muted small mb-2">Sleeps up to @r.Capacity</p>
+              <p class="mb-3">@r.Description</p>
+              <div class="mt-auto">
+                <div class="d-flex justify-content-between align-items-end mb-2">
+                  <span><strong>₹@r.PricePerNight.ToString("N0")</strong> / night</span>
+                  <span class="small text-muted">@nights night(s): ₹@((r.PricePerNight * nights).ToString("N0"))</span>
+                </div>
+                <a class="btn btn-brand w-100" asp-controller="Booking" asp-action="Create"
+                   asp-route-roomId="@r.Id" asp-route-checkIn="@Model.CheckIn!.Value.ToString("yyyy-MM-dd")"
+                   asp-route-checkOut="@Model.CheckOut!.Value.ToString("yyyy-MM-dd")" asp-route-guests="@Model.Guests">Book this room</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    }
+    </div>
+}

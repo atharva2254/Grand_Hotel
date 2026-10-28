@@ -1,0 +1,14 @@
+@model Booking
+@{ ViewData["Title"] = "Booking confirmed"; }
+<div class="card mx-auto" style="max-width:560px"><div class="card-body">
+  <h1 class="h3 text-success">Booking confirmed</h1>
+  <p>Your reference: <strong class="fs-4">@Model.Reference</strong><br /><span class="text-muted small">Keep this and your email to view or cancel the booking.</span></p>
+  <dl class="row mb-0">
+    <dt class="col-5">Guest</dt><dd class="col-7">@Model.GuestName</dd>
+    <dt class="col-5">Room</dt><dd class="col-7">@Model.Room!.RoomType #@Model.Room.RoomNumber</dd>
+    <dt class="col-5">Check-in</dt><dd class="col-7">@Model.CheckIn.ToString("dd MMM yyyy")</dd>
+    <dt class="col-5">Check-out</dt><dd class="col-7">@Model.CheckOut.ToString("dd MMM yyyy")</dd>
+    <dt class="col-5">Guests</dt><dd class="col-7">@Model.Guests</dd>
+    <dt class="col-5">Total</dt><dd class="col-7">₹@Model.TotalPrice.ToString("N0")</dd>
+  </dl>
+</div></div>

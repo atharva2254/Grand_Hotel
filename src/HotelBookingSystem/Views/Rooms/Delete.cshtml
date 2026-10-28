@@ -1,0 +1,10 @@
+@model Room
+@{ ViewData["Title"] = "Delete room"; }
+<div class="mx-auto" style="max-width:560px">
+  <h1 class="h3 mb-3">Delete room?</h1>
+  <p>This will permanently delete room <strong>@Model.RoomNumber</strong> (@Model.RoomType). Rooms that already have bookings cannot be deleted; mark them inactive instead.</p>
+  <form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger">Delete</button> <a class="btn btn-outline-secondary" asp-action="Index">Cancel</a>
+  </form>
+</div>

@@ -1,0 +1,12 @@
+@model LoginVm
+@{ ViewData["Title"] = "Staff login"; }
+<div class="mx-auto" style="max-width:420px">
+  <h1 class="h3 mb-3">Staff login</h1>
+  <form asp-action="Login" method="post">
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div class="mb-3"><label asp-for="Email" class="form-label"></label><input asp-for="Email" class="form-control" autocomplete="username" /></div>
+    <div class="mb-3"><label asp-for="Password" class="form-label"></label><input asp-for="Password" class="form-control" autocomplete="current-password" /></div>
+    <button class="btn btn-brand w-100">Sign in</button>
+  </form>
+</div>

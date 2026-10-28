@@ -1,0 +1,9 @@
+@model Room
+@if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+{
+    <img src="@Model.ImageUrl" alt="@Model.RoomType" class="card-img-top room-img" />
+}
+else
+{
+    <div class="room-img">No photo</div>
+}

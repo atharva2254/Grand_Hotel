@@ -1,0 +1,9 @@
+:root { --brand: #0E6B74; --ink: #12232E; }
+body { color: var(--ink); background: #F7F9FA; }
+.bg-brand { background: var(--brand); }
+.btn-brand { background: var(--brand); border-color: var(--brand); color: #fff; }
+.btn-brand:hover { background: #0B565D; color: #fff; }
+.hero { background: var(--ink); color: #fff; border-radius: 12px; padding: 2rem 1.5rem; }
+.room-img { height: 170px; object-fit: cover; background: #DDE5EA; display: flex; align-items: center; justify-content: center; color: #3E4F5A; }
+.card { border-color: #DDE5EA; border-radius: 12px; overflow: hidden; }
+.table-responsive { background: #fff; border: 1px solid #DDE5EA; border-radius: 12px; }

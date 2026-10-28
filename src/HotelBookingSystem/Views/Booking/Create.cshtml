@@ -1,0 +1,26 @@
+@model BookingVm
+@{ ViewData["Title"] = "Confirm booking"; }
+<div class="row g-4">
+  <div class="col-12 col-lg-5 order-lg-2">
+    <div class="card"><div class="card-body">
+      <h2 class="h5">@Model.Room!.RoomType <small class="text-muted">#@Model.Room.RoomNumber</small></h2>
+      <p class="mb-1">@Model.CheckIn.ToString("dd MMM yyyy") → @Model.CheckOut.ToString("dd MMM yyyy")</p>
+      <p class="mb-1">@Model.Nights night(s) · @Model.Guests guest(s)</p>
+      <p class="mb-1 text-muted">₹@Model.Room.PricePerNight.ToString("N0") × @Model.Nights</p>
+      <p class="h5 mb-0">Total ₹@Model.Total.ToString("N0")</p>
+    </div></div>
+  </div>
+  <div class="col-12 col-lg-7">
+    <h1 class="h3 mb-3">Confirm your booking</h1>
+    <form asp-action="Create" method="post">
+      <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+      <input type="hidden" asp-for="RoomId" /><input type="hidden" asp-for="CheckIn" />
+      <input type="hidden" asp-for="CheckOut" /><input type="hidden" asp-for="Guests" />
+      <div class="mb-3"><label asp-for="GuestName" class="form-label"></label><input asp-for="GuestName" class="form-control" /><span asp-validation-for="GuestName" class="text-danger"></span></div>
+      <div class="mb-3"><label asp-for="GuestEmail" class="form-label"></label><input asp-for="GuestEmail" type="email" class="form-control" /><span asp-validation-for="GuestEmail" class="text-danger"></span></div>
+      <div class="mb-3"><label asp-for="GuestPhone" class="form-label"></label><input asp-for="GuestPhone" type="tel" class="form-control" /><span asp-validation-for="GuestPhone" class="text-danger"></span></div>
+      <button class="btn btn-brand btn-lg w-100" type="submit">Confirm booking</button>
+    </form>
+  </div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
