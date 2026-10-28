@@ -1,38 +1,61 @@
-# Hotel Booking System
+Hotel Room Booking System
 
-ASP.NET Core 10 MVC + Entity Framework Core + SQL Server. Guests search and book rooms; staff manage bookings; admins manage rooms.
+A web-based hotel booking application built with ASP.NET Core MVC, C#, and SQL Server. Guests can browse rooms, check availability, and submit booking requests, while staff can log in and manage room inventory.
 
-## Tech stack
+Tech Stack
 
-C#, ASP.NET Core 10 MVC (Razor), EF Core 10 (SQL Server), ASP.NET Core Identity (roles), Bootstrap 5.
+- ASP.NET Core MVC (.NET 10)
+- C#
+- SQL Server
+- Entity Framework Core
+- Razor Views, HTML, CSS, Bootstrap
+- Cookie Authentication
 
-## Setup
+Features
 
-1. Install .NET 10 SDK and SQL Server (LocalDB works).
-2. Edit the connection string in `src/HotelBookingSystem/appsettings.json` if you are not using LocalDB.
-3. `cd src/HotelBookingSystem && dotnet run`
-4. On first run the app creates the database, roles, two users and 5 sample rooms.
-   (Alternative: run `database/HotelBookingDB.sql` for Rooms/Bookings only; Identity tables come from the app.)
+- Browse rooms and view pricing and details.
+- Search rooms by dates and guest capacity.
+- Book rooms with guest details and booking confirmation.
+- Validate dates and check overlapping reservations.
+- Staff login with password hashing.
+- Staff-only room listing and room creation.
 
-## Test logins
+Project Structure
 
-| Role  | Email           | Password  |
-| ----- | --------------- | --------- |
-| Admin | admin@hotel.com | Admin@123 |
-| Staff | staff@hotel.com | Staff@123 |
+HotelBookingSystem/
+├── src/
+├── database/
+│   ├── HotelBookingDB.bak
+│   ├── HotelBookingDB.sql
+│   └── ER-Diagram.png
+├── screenshots/
+├── AI_TOOLS_USED.md
+└── README.md
 
-Guests need no account. They get a booking reference and can look up or cancel with reference + email.
+Setup
 
-## Design decisions
+1. Open "src/HotelBookingSystem.sln" in Visual Studio.
+2. Configure the SQL Server connection string in "appsettings.json".
+3. Restore NuGet packages.
+4. Create/update the database using EF Core migrations or the supplied SQL script.
+5. Run the "HotelBookingSystem.Web" project.
 
-- **Availability rule:** a room is free if no non-cancelled booking overlaps the dates; check-out day is free for the next guest. Capacity must be >= guests.
-- **No double booking:** booking is re-checked inside a Serializable transaction. DB also has check constraints (CheckOut > CheckIn, capacity 1-10) and unique room numbers/references.
-- **Roles:** Staff can view/filter bookings and check in, check out, or cancel. Admin can do that plus create/edit/delete rooms.
-- **Rooms with bookings cannot be deleted** (FK Restrict); mark them inactive instead.
-- **Rules:** no past check-in, max 30 nights, 1-10 guests.
-- **More with time:** payments, email confirmations, room photos upload, calendar view, seasonal pricing, migrations instead of EnsureCreated, unit tests.
+Design Decisions
 
-## Features
+- Used MVC to separate controllers, models, and views.
+- Used EF Core for SQL Server database operations.
+- Added server-side validation for booking dates and room availability.
+- Used cookie authentication to protect staff-only pages.
 
-Done: search by dates/guests, guest booking, booking lookup/cancel, staff login, booking list with filters and status changes, admin room CRUD, responsive UI.
-Not done: payments.
+Future Improvements
+
+- Staff booking management and room editing.
+- Guest accounts and booking history.
+- Automated tests and stronger concurrency protection.
+
+AI Tools
+
+ChatGPT and Claude were used for development guidance, code generation, and troubleshooting. Refer to "AI_TOOLS_USED.md" for details.
+
+Author
+Atharva Lohar
